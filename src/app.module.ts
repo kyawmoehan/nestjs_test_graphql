@@ -1,13 +1,19 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { PetsModule } from './pets/pets.module';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver } from '@nestjs/apollo';
+import { join } from 'path';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true
+    }),
+    GraphQLModule.forRoot({
+      driver: ApolloDriver,
+      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
@@ -22,8 +28,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       entities: [],
       synchronize: false,
     }),
+    PetsModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule { }
