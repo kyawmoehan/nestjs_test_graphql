@@ -1,18 +1,18 @@
 import { Field, Int, ObjectType } from "@nestjs/graphql";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-@ObjectType()
 @Entity('pets')
+@ObjectType()
 export class Pet {
-    @Field(type => Int)
     @PrimaryGeneratedColumn()
+    @Field(type => Int)
     id: number;
 
-    @Field()
     @Column()
+    @Field()
     name: string;
 
-    @Field({ nullable: true })
     @Column({ nullable: true })
+    @Field({ nullable: true })
     type: string;
 }

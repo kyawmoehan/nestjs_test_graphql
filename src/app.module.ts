@@ -5,6 +5,7 @@ import { PetsModule } from './pets/pets.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver } from '@nestjs/apollo';
 import { join } from 'path';
+import { Pet } from './pets/entities/pet.entity';
 
 @Module({
   imports: [
@@ -25,8 +26,8 @@ import { join } from 'path';
       // ssl: {
       //   rejectUnauthorized: true,
       // },
-      entities: [],
-      synchronize: false,
+      entities: [Pet],
+      synchronize: true,
     }),
     PetsModule,
   ],
