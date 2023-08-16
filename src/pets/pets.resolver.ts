@@ -7,15 +7,22 @@ import { CreatePetInput } from './dto/create-pet.input';
 export class PetsResolver {
     constructor(private petsService: PetsService) { }
 
-    @Query(() => [Pet])
-    pets(): Promise<Pet[]> {
-        return this.petsService.findAll();
-    }
-
     @Mutation(() => Pet)
     createPet(
         @Args('createPetInput') createPetInput: CreatePetInput
     ): Promise<Pet> {
         return this.petsService.crete(createPetInput);
+    }
+
+    @Query(() => [Pet])
+    pets(): Promise<Pet[]> {
+        return this.petsService.findAll();
+    }
+
+    @Query(() => Pet)
+    getPet(
+        @Args('id') id: number
+    ): Promise<Pet> {
+        return this.petsService.findOne(id);
     }
 }

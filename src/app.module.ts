@@ -6,6 +6,8 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver } from '@nestjs/apollo';
 import { join } from 'path';
 import { Pet } from './pets/entities/pet.entity';
+import { OwnersModule } from './owners/owners.module';
+import { Owner } from './owners/entities/owner.entity';
 
 @Module({
   imports: [
@@ -26,10 +28,11 @@ import { Pet } from './pets/entities/pet.entity';
       // ssl: {
       //   rejectUnauthorized: true,
       // },
-      entities: [Pet],
+      entities: [Pet, Owner],
       synchronize: true,
     }),
     PetsModule,
+    OwnersModule,
   ],
   controllers: [],
   providers: [],
