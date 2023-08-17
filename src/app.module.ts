@@ -8,6 +8,11 @@ import { join } from 'path';
 import { Pet } from './pets/entities/pet.entity';
 import { OwnersModule } from './owners/owners.module';
 import { Owner } from './owners/entities/owner.entity';
+import { UsersModule } from './users/users.module';
+import { User } from './users/entities/user.entity';
+import { AuthModule } from './auth/auth.module';
+import { RolesModule } from './roles/roles.module';
+import { Role } from './roles/entities/role.entity';
 
 @Module({
   imports: [
@@ -28,11 +33,14 @@ import { Owner } from './owners/entities/owner.entity';
       // ssl: {
       //   rejectUnauthorized: true,
       // },
-      entities: [Pet, Owner],
+      entities: [Role, User, Pet, Owner],
       synchronize: true,
     }),
     PetsModule,
     OwnersModule,
+    UsersModule,
+    AuthModule,
+    RolesModule,
   ],
   controllers: [],
   providers: [],
