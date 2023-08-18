@@ -40,6 +40,14 @@ export class RolesService {
     });
   }
 
+  async findByName(name: string): Promise<Role[]> {
+    return this.rolesRepository.find({
+      where: {
+        name
+      }
+    });
+  }
+
   async update(
     id: number,
     updateRoleInput: UpdateRoleInput

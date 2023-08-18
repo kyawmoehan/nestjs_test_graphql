@@ -15,17 +15,6 @@ type Pet {
   owner: Owner
 }
 
-type User {
-  id: Int!
-  userName: String!
-  password: String!
-}
-
-type Auth {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
 type Role {
   id: Int!
   name: String!
@@ -38,14 +27,19 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type Auth {
+  id: Int!
+  userName: String!
+  password: String
+  roles: [Role!]!
+  access_token: String!
+}
+
 type Query {
   pets: [Pet!]!
   getPet(id: Float!): Pet!
   owners: [Owner!]!
   owner(id: Int!): Owner!
-  users: [User!]!
-  user(id: Int!): User!
-  auth(id: Int!): Auth!
   roles: [Role!]!
   role(id: Int!): Role!
 }
@@ -53,12 +47,8 @@ type Query {
 type Mutation {
   createPet(createPetInput: CreatePetInput!): Pet!
   createOwner(createOwnerInput: CreateOwnerInput!): Owner!
-  createUser(createUserInput: CreateUserInput!): User!
-  updateUser(updateUserInput: UpdateUserInput!): User!
-  removeUser(id: Int!): User!
-  createAuth(createAuthInput: CreateAuthInput!): Auth!
-  updateAuth(updateAuthInput: UpdateAuthInput!): Auth!
-  removeAuth(id: Int!): Auth!
+  signUp(createAuthInput: CreateAuthInput!): Auth!
+  signIn(createAuthInput: CreateAuthInput!): Auth!
   createRole(createRoleInput: CreateRoleInput!): Role!
   updateRole(updateRoleInput: UpdateRoleInput!): Role!
   removeRole(id: Int!): Role!
@@ -74,26 +64,9 @@ input CreateOwnerInput {
   name: String!
 }
 
-input CreateUserInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input UpdateUserInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
-}
-
 input CreateAuthInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input UpdateAuthInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  userName: String!
+  password: String!
 }
 
 input CreateRoleInput {
