@@ -14,7 +14,7 @@ export class PetsService {
     ) { }
 
     async crete(createPetInput: CreatePetInput): Promise<Pet> {
-        const owner = await this.ownersService.findOne(createPetInput.ownerId);
+        const owner = await this.ownersService.adminFindOne(createPetInput.ownerId);
         const newPet = this.petsRepository.create({
             ...createPetInput,
             owner

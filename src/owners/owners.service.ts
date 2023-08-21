@@ -19,7 +19,7 @@ export class OwnersService {
     return this.ownersRepository.save(newOwner);
   }
 
-  async findAll(): Promise<Owner[]> {
+  async adminFindAll(): Promise<Owner[]> {
     return this.ownersRepository.find({
       relations: {
         pets: true
@@ -27,7 +27,7 @@ export class OwnersService {
     });
   }
 
-  async findOne(id: number): Promise<Owner> {
+  async adminFindOne(id: number): Promise<Owner> {
     return this.ownersRepository.findOneOrFail({
       where: {
         id

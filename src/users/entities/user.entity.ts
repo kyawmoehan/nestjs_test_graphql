@@ -14,7 +14,7 @@ export class User {
   userName: string;
 
   @Column()
-  @Field({ nullable: true })
+  // @Field({ nullable: true })
   password: string;
 
   @ManyToMany(() => Role)
@@ -29,5 +29,6 @@ export class User {
       referencedColumnName: "id"
     }
   })
+  @Field(() => [Role])
   roles: Role[];
 }

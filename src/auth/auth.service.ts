@@ -27,7 +27,6 @@ export class AuthService {
 
   async signUp(createAuthInput: CreateAuthInput) {
     try {
-      console.log(createAuthInput);
       const hasUserName = await this.usersService.findOneByUserName(createAuthInput.userName);
       if (hasUserName) throw new HttpException('User Name already sing up!', HttpStatus.BAD_REQUEST);
 
@@ -71,10 +70,10 @@ export class AuthService {
     }
   }
 
-  async accessToken(userId: number, email: string): Promise<string> {
+  async accessToken(userId: number, userName: string): Promise<string> {
     const payload = {
       sub: userId,
-      email: email
+      userName: userName
     }
     const secretKey = this.config.get('JWT_SECRET');
     const token = await this.jwtService.signAsync(payload, {

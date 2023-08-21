@@ -9,9 +9,6 @@ export class Auth {
     @Field()
     userName: string;
 
-    @Field({ nullable: true })
-    password: string;
-
     @Field(() => [Role])
     roles: Role[];
 
