@@ -2,19 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Owner {
-  id: Int!
-  name: String!
-  pets: [Pet!]
-}
-
-type Pet {
-  id: Int!
-  name: String!
-  type: String
-  owner: Owner
-}
-
 type Role {
   id: Int!
   name: String!
@@ -30,7 +17,16 @@ scalar DateTime
 type User {
   id: Int!
   userName: String!
-  roles: [Role!]!
+  roles: [Role!]
+  pets: [Pet!]
+}
+
+type Pet {
+  id: Int!
+  name: String!
+  type: String
+  user: User
+  isOwner: Boolean
 }
 
 type Auth {
@@ -43,15 +39,12 @@ type Auth {
 type Query {
   pets: [Pet!]!
   getPet(id: Float!): Pet!
-  owners: [Owner!]!
-  owner(id: Int!): Owner!
   roles: [Role!]!
   role(id: Int!): Role!
 }
 
 type Mutation {
   createPet(createPetInput: CreatePetInput!): Pet!
-  createOwner(createOwnerInput: CreateOwnerInput!): Owner!
   me: User!
   signUp(createAuthInput: CreateAuthInput!): Auth!
   signIn(createAuthInput: CreateAuthInput!): Auth!
@@ -63,11 +56,6 @@ type Mutation {
 input CreatePetInput {
   name: String!
   type: String
-  ownerId: Int!
-}
-
-input CreateOwnerInput {
-  name: String!
 }
 
 input CreateAuthInput {

@@ -6,8 +6,6 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver } from '@nestjs/apollo';
 import { join } from 'path';
 import { Pet } from './pets/entities/pet.entity';
-import { OwnersModule } from './owners/owners.module';
-import { Owner } from './owners/entities/owner.entity';
 import { UsersModule } from './users/users.module';
 import { User } from './users/entities/user.entity';
 import { AuthModule } from './auth/auth.module';
@@ -33,11 +31,10 @@ import { Role } from './roles/entities/role.entity';
       // ssl: {
       //   rejectUnauthorized: true,
       // },
-      entities: [Role, User, Pet, Owner],
+      entities: [Role, User, Pet],
       synchronize: true,
     }),
     PetsModule,
-    OwnersModule,
     UsersModule,
     AuthModule,
     RolesModule,

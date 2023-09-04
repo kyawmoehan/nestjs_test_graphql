@@ -1,6 +1,6 @@
 import { Field, Int, ObjectType } from "@nestjs/graphql";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Owner } from "../../owners/entities/owner.entity";
+import { User } from "../../users/entities/user.entity";
 
 @Entity('pets')
 @ObjectType()
@@ -17,8 +17,11 @@ export class Pet {
     @Field({ nullable: true })
     type: string;
 
-    @ManyToOne(() => Owner, owner => owner.pets)
-    @JoinColumn([{ name: 'owner_id', referencedColumnName: 'id' }])
-    @Field(() => Owner, { nullable: true })
-    owner: Owner;
+    @ManyToOne(() => User, (user) => user.pets)
+    @JoinColumn([{ name: 'user_id', referencedColumnName: 'id' }])
+    @Field(() => User, { nullable: true })
+    user: User;
+
+    @Field(() => Boolean, { nullable: true })
+    isOwner: boolean;
 }

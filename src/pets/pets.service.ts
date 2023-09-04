@@ -3,21 +3,22 @@ import { Pet } from './entities/pet.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreatePetInput } from './dto/create-pet.input';
-import { OwnersService } from '../owners/owners.service';
+import { User } from '../users/entities/user.entity';
 
 @Injectable()
 export class PetsService {
     constructor(
         @InjectRepository(Pet)
-        private petsRepository: Repository<Pet>,
-        private ownersService: OwnersService
+        private petsRepository: Repository<Pet>
     ) { }
 
-    async crete(createPetInput: CreatePetInput): Promise<Pet> {
-        const owner = await this.ownersService.adminFindOne(createPetInput.ownerId);
+    async crete(
+        createPetInput: CreatePetInput,
+        user: User
+    ): Promise<Pet> {
         const newPet = this.petsRepository.create({
             ...createPetInput,
-            owner
+            user
         });
         return this.petsRepository.save(newPet);
     }
@@ -25,7 +26,7 @@ export class PetsService {
     async findAll(): Promise<Pet[]> {
         return this.petsRepository.find({
             relations: {
-                owner: true
+                user: true
             }
         });
     }
