@@ -24,8 +24,10 @@ export class PetsResolver {
 
     @UseGuards(JwtAuthGuard)
     @Query(() => [Pet])
-    pets(): Promise<Pet[]> {
-        return this.petsService.findAll();
+    pets(
+        @Args('search', { nullable: true }) search: string | null
+    ): Promise<Pet[]> {
+        return this.petsService.findAll(search);
     }
 
     @ResolveField(() => Boolean)

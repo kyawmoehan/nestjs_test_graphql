@@ -37,7 +37,7 @@ type Auth {
 }
 
 type Query {
-  pets: [Pet!]!
+  pets(search: String): [Pet!]!
   getPet(id: Float!): Pet!
   roles: [Role!]!
   role(id: Int!): Role!

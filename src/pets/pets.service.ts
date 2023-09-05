@@ -23,18 +23,47 @@ export class PetsService {
         return this.petsRepository.save(newPet);
     }
 
-    async findAll(): Promise<Pet[]> {
-        return this.petsRepository.find({
-            relations: {
-                user: true
-            }
-        });
+    // async findAll(
+    //     search: string | null
+    // ): Promise<Pet[]> {
+    //     const where = search
+    //         ? [
+    //             { name: ILike(`%${search}%`) },
+    //             { user: { userName: ILike(`%${search}%`) } }
+    //         ]
+    //         : {};
+
+    //     return this.petsRepository.find({
+    //         where,
+    //         relations: {
+    //             user: true
+    //         }
+    //     });
+    // }
+
+
+    async findAll(search: string | null): Promise<Pet[]> {
+        const queryBuilder = this.petsRepository
+            .createQueryBuilder('pet')
+            .leftJoinAndSelect('pet.user', 'user');
+
+        if (search) {
+            queryBuilder.where(
+                'pet.name ILIKE :search OR user.userName ILIKE :search',
+                { search: `%${search}%` },
+            );
+        }
+        return queryBuilder.getMany();
     }
+
 
     async findOne(id: number): Promise<Pet> {
         return this.petsRepository.findOneOrFail({
             where: {
                 id
+            },
+            relations: {
+                user: true
             }
         });
     }
