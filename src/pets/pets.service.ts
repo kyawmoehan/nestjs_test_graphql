@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreatePetInput } from './dto/create-pet.input';
 import { User } from '../users/entities/user.entity';
+import { generatePaginationInfo } from '../helper/pagination/paginationinfo';
 
 @Injectable()
 export class PetsService {
@@ -42,7 +43,13 @@ export class PetsService {
     // }
 
 
-    async findAll(search: string | null): Promise<Pet[]> {
+    async findAll(
+        page: number,
+        limit: number,
+        search: string | null
+    ) {
+        const skip = (page - 1) * limit;
+
         const queryBuilder = this.petsRepository
             .createQueryBuilder('pet')
             .leftJoinAndSelect('pet.user', 'user');
@@ -53,7 +60,15 @@ export class PetsService {
                 { search: `%${search}%` },
             );
         }
-        return queryBuilder.getMany();
+        const [pets, totalCount] = await queryBuilder
+            .skip(skip)
+            .take(limit)
+            .getManyAndCount();
+
+        const totalItems = pets.length;
+        const paginationInfo = generatePaginationInfo(totalItems, totalCount, page, limit);
+
+        return pets;
     }
 
 

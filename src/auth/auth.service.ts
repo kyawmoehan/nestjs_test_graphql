@@ -7,10 +7,10 @@ import { Role } from '../roles/entities/role.entity';
 import { RolesService } from '../roles/roles.service';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import hashGenerate from '../hash/hash.generate';
+import hashGenerate from '../helper/hash/hash.generate';
 import { CreateAuthInput } from './dto/auth.input';
 import { RoleEnum } from './enum/role.enum';
-import hashCheck from '../hash/hash.check';
+import hashCheck from '../helper/hash/hash.check';
 
 @Injectable()
 export class AuthService {

@@ -1,12 +1,14 @@
-import { Args, Mutation, Query, ResolveField, Resolver, Root } from '@nestjs/graphql';
+import { Args, Int, Mutation, Query, ResolveField, Resolver, Root } from '@nestjs/graphql';
 import { PetsService } from './pets.service';
 import { Pet } from './entities/pet.entity';
 import { CreatePetInput } from './dto/create-pet.input';
 import { TypeormExceptionFilter } from '../exceptionfilters/typeorm-exception.filter';
-import { UseFilters, UseGuards } from '@nestjs/common';
+import { Search, UseFilters, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 import { CurrentUser } from '../auth/decorators/user.decorator';
 import { User } from '../users/entities/user.entity';
+import { PetsPagination } from './entities/PetsPagination';
+import { limits } from 'argon2';
 
 @Resolver(() => Pet)
 @UseFilters(TypeormExceptionFilter)
@@ -25,9 +27,11 @@ export class PetsResolver {
     @UseGuards(JwtAuthGuard)
     @Query(() => [Pet])
     pets(
-        @Args('search', { nullable: true }) search: string | null
+        @Args('search', { nullable: true }) search: string | null,
+        @Args('page', { type: () => Int, nullable: true, defaultValue: 1 }) page: number,
+        @Args('limit', { type: () => Int, nullable: true, defaultValue: 10 }) limit: number
     ): Promise<Pet[]> {
-        return this.petsService.findAll(search);
+        return this.petsService.findAll(page, limit, search);
     }
 
     @ResolveField(() => Boolean)
